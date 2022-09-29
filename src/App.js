@@ -1,23 +1,30 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+  //API key: f26631ce955fdec3c98ba993cf7ee069
+  const [locationInfo, setLocationInfo] = useState({});
+
+  function success(pos) {
+    console.log("Location retrieved");
+    setLocationInfo(pos.coords);
+  
+    //console.log('Your current position is:');
+    //console.log(`Latitude : ${crd.latitude}`);
+    //console.log(`Longitude: ${crd.longitude}`);
+    //console.log(`More or less ${crd.accuracy} meters.`);
+  }
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(success);
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Weather Forecast App</h1>
+      <p>{`Latitude : ${locationInfo.latitude}`}</p>
+      <p>{`Latitude : ${locationInfo.longitude}`}</p>
+      <p>{`Accuracy : ${locationInfo.accuracy} meters`}</p>
     </div>
   );
 }
