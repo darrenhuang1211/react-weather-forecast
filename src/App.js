@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import './App.css';
+import APIKEY from './config';
 
 function App() {
-  //API key: f26631ce955fdec3c98ba993cf7ee069
   const [locationInfo, setLocationInfo] = useState({});
   const [locationName, setLocationName] = useState({});
 
   async function getLocationName(lat, lon) {
     try {
-      const response = await fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=f26631ce955fdec3c98ba993cf7ee069`);
+      const response = await fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${APIKEY}`);
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
