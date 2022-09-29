@@ -4,19 +4,32 @@ import './App.css';
 function App() {
   //API key: f26631ce955fdec3c98ba993cf7ee069
   const [locationInfo, setLocationInfo] = useState({});
+  const [locationName, setLocationName] = useState({});
 
-  function success(pos) {
+  async function getLocationName(lat, lon) {
+    try {
+      const response = await fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=f26631ce955fdec3c98ba993cf7ee069`);
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+
+      const data = await response.json();
+      console.log(data);
+      setLocationName(data[0].name);
+    }
+    catch(error) {
+      console.log(`Encountered error: ${error.message}`);
+    }
+  }
+
+  function getPositionSuccess(pos) {
     console.log("Location retrieved");
+    getLocationName(pos.coords.latitude, pos.coords.longitude);
     setLocationInfo(pos.coords);
-  
-    //console.log('Your current position is:');
-    //console.log(`Latitude : ${crd.latitude}`);
-    //console.log(`Longitude: ${crd.longitude}`);
-    //console.log(`More or less ${crd.accuracy} meters.`);
   }
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(success);
+    navigator.geolocation.getCurrentPosition(getPositionSuccess);
   }, []);
 
   return (
@@ -25,6 +38,7 @@ function App() {
       <p>{`Latitude : ${locationInfo.latitude}`}</p>
       <p>{`Latitude : ${locationInfo.longitude}`}</p>
       <p>{`Accuracy : ${locationInfo.accuracy} meters`}</p>
+      <p>{`Location : ${locationName}`}</p>
     </div>
   );
 }
