@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import APIKEY from './config';
 import WeatherChart from './WeatherChart';
+import CityTextField from './CityTextField';
 
 function App() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [locationInfo, setLocationInfo] = useState({});
   const [locationName, setLocationName] = useState({});
   const [weatherData, setWeatherData] = useState({});
@@ -16,6 +18,7 @@ function App() {
       }
 
       const data = await response.json();
+      console.log(`Location: ${data[0].name}`);
       setLocationName(data[0].name);
     }
     catch(error) {
@@ -31,7 +34,9 @@ function App() {
       }
 
       const data = await response.json();
+      console.log("Weather data retrieved");
       setWeatherData(data);
+      setIsLoaded(true);
     }
     catch(error) {
       console.log(`Encountered error: ${error.message}`);
@@ -39,7 +44,7 @@ function App() {
   }
 
   function getPositionSuccess(pos) {
-    console.log("Location retrieved");
+    console.log("Position retrieved");
     getLocationName(pos.coords.latitude, pos.coords.longitude);
     getWeather(pos.coords.latitude, pos.coords.longitude);
     setLocationInfo(pos.coords);
@@ -49,11 +54,26 @@ function App() {
     navigator.geolocation.getCurrentPosition(getPositionSuccess);
   }, []);
 
+  function updateCityHandler(event) {
+    event.preventDefault();
+    console.log(`Update city`);
+  }
+
+  let content = <p>Loading...</p>;
+
+  if (isLoaded) {
+    content = (
+      <React.Fragment>
+        <CityTextField location={locationName} submitHandler={updateCityHandler}/>
+        <WeatherChart chartData={weatherData}/>
+      </React.Fragment>
+    );
+  }
+
   return (
     <div className="App">
       <h1>Weather Forecast App</h1>
-      <p>{`Location : ${locationName}`}</p>
-      {weatherData.list && <WeatherChart chartData={weatherData}/>}
+      {content}
     </div>
   );
 }
