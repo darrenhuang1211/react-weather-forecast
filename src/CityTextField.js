@@ -1,8 +1,17 @@
+import {useRef} from 'react';
+
 function CityTextField(props) {
+   const cityInputRef = useRef();
+
+   const submissionHandler = (event) => {
+      event.preventDefault();
+      props.submitHandler(cityInputRef.current.value);
+   }
+
    return (
-      <form onSubmit={props.submitHandler}>
+      <form onSubmit={submissionHandler}>
          <label>Your city: </label>
-         <input type="text" defaultValue={props.location}></input>
+         <input ref={cityInputRef} type="text" defaultValue={props.location}></input>
          <button type="submit">Update</button>
       </form>
    );

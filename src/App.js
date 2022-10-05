@@ -6,7 +6,6 @@ import CityTextField from './CityTextField';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [locationInfo, setLocationInfo] = useState({});
   const [locationName, setLocationName] = useState({});
   const [weatherData, setWeatherData] = useState({});
 
@@ -26,8 +25,28 @@ function App() {
     }
   }
 
+  async function getCoordsFromLocation(location) {
+    try {
+      const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${APIKEY}`);
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+
+      const data = await response.json();
+      setLocationName(data[0].name);
+      console.log(`New location: ${data[0].name}`);
+      console.log(`New coordinates: Lat: ${data[0].lat} Lon: ${data[0].lon}`);
+
+      return [data[0].lat, data[0].lon];
+    }
+    catch(error) {
+      console.log(`Encountered error: ${error.message}`);
+    }
+  }
+
   async function getWeather(lat, lon) {
     try {
+      console.log(`Getting weather data for lat: ${lat} lon: ${lon}`);
       const response = await fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${APIKEY}`);
       if (!response.ok) {
         throw new Error('Something went wrong!');
@@ -44,22 +63,23 @@ function App() {
   }
 
   function getPositionSuccess(pos) {
-    console.log("Position retrieved");
-    getLocationName(pos.coords.latitude, pos.coords.longitude);
-    getWeather(pos.coords.latitude, pos.coords.longitude);
-    setLocationInfo(pos.coords);
+    const coordinates = pos.coords;
+    console.log(`Coordinates: Lat: ${coordinates.latitude} Lon: ${coordinates.longitude}`);
+    getLocationName(coordinates.latitude, coordinates.longitude);
+    getWeather(coordinates.latitude, coordinates.longitude);
   }
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(getPositionSuccess);
   }, []);
 
-  function updateCityHandler(event) {
-    event.preventDefault();
-    console.log(`Update city`);
+  async function updateCityHandler(newCity) {
+    setIsLoaded(false);
+    const [newLat, newLon] = await getCoordsFromLocation(newCity);
+    getWeather(newLat, newLon);
   }
 
-  let content = <p>Loading...</p>;
+  let content;
 
   if (isLoaded) {
     content = (
@@ -68,6 +88,9 @@ function App() {
         <WeatherChart chartData={weatherData}/>
       </React.Fragment>
     );
+  }
+  else {
+    content = <p>Loading...</p>;
   }
 
   return (
