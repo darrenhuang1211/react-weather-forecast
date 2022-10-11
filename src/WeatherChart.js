@@ -1,10 +1,17 @@
 import React, {useState, useCallback} from "react";
+import styled from "styled-components";
 import { Line } from 'react-chartjs-2';
 import WeatherDayButton from './WeatherDayButton';
 import WeatherOverview from "./WeatherOverview";
 import { Chart as ChartJS, CategoryScale, LineController, LineElement, PointElement, LinearScale, Title } from 'chart.js';
 
 ChartJS.register(CategoryScale, LineController, LineElement, PointElement, LinearScale, Title);
+
+const ChartContainer = styled.div`
+   display: inline-block;
+   width: 50em;
+   float: left;
+`;
 
 function WeatherChart(props) {
    const [currentDay, setCurrentDay] = useState(0);
@@ -31,7 +38,8 @@ function WeatherChart(props) {
       feelsLike: dayWeatherData[0].main.feels_like,
       humidity: dayWeatherData[0].main.humidity,
       windSpeed: dayWeatherData[0].wind.speed,
-      weather: dayWeatherData[0].weather[0].main
+      weather: dayWeatherData[0].weather[0].main,
+      icon: dayWeatherData[0].weather[0].icon
    };
    
    const data = {
@@ -42,14 +50,17 @@ function WeatherChart(props) {
    };
 
    const options = {
-      tension: 0.25
+      tension: 0.25,
+      aspectRatio: 3
    };
 
    return (
       <React.Fragment>
          <WeatherOverview data={currentDayOverview}/>
-         <Line options={options} data={data}></Line>
-         {buttons}
+         <ChartContainer>
+            <Line options={options} data={data}></Line>
+            {buttons}
+         </ChartContainer>
       </React.Fragment>
    );
 }

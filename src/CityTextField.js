@@ -2,23 +2,23 @@ import {useRef} from 'react';
 import styled from 'styled-components';
 
 const StyledForm = styled.form`
-   display: flex;
-   align-items: left;
-   margin-bottom: 0.5rem;
-   margin-left: 0.5rem;
+   display: block;
+   width: 20em;
+   margin-bottom: 0.5em;
+   margin-left: 0.5em;
 
    label {
       font-weight: bold;
-      margin-right: 1rem;
+      margin-right: 1em;
    }
 
    input {
-      width: 8rem;
+      width: 8em;
       border-radius: 5px;
       border: 1px solid #ccc;
       font: inherit;
-      padding-left: 0.5rem;
-      margin-right: 0.5rem;
+      padding-left: 0.5em;
+      margin-right: 0.5em;
    }
 
    button {
