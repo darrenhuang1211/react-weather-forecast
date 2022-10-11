@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import APIKEY from './config';
-import WeatherChart from './WeatherChart';
+import WeatherChart from './WeatherDisplay';
 import CityTextField from './CityTextField';
 
 function App() {
