@@ -6,11 +6,12 @@ const StyledWeatherButton = styled.div`
    float: left;
    width: 10em;
    text-align: center;
+   border-radius: 5px;
+   background-color: ${props => props.selected ? "#60c0f0" : "white"};
 
    :hover {
       border-style: solid;
-      border-color: 	#0080ff;
-      border-radius: 5px;
+      border-color: 	#60c0f0;
       cursor: pointer;
    }
 
@@ -24,11 +25,10 @@ function WeatherDayButton(props) {
       props.handler(props.dayNum);
    }
    const overviewData = props.weatherData[0];
-   const weatherIconURL = `http://openweathermap.org/img/wn/${overviewData.weather[0].icon}@2x.png`
-   console.log(props.weatherData);
+   const weatherIconURL = `http://openweathermap.org/img/wn/${overviewData.weather[0].icon}@2x.png`;
 
    return (
-      <StyledWeatherButton onClick={onClickHandler}>
+      <StyledWeatherButton {...props} onClick={onClickHandler}>
          <p>{props.children}</p>
          <img src={weatherIconURL} alt={overviewData.weather}></img>
          <p>{`Humidity: ${overviewData.main.humidity}%`}</p>

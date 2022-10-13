@@ -34,7 +34,8 @@ function WeatherChart(props) {
          <WeatherDayButton 
             key={i} 
             weatherData={props.weatherData[i]}
-            dayNum={i} 
+            dayNum={i}
+            selected={i === currentDay} 
             handler={dayButtonHandler}
          >
             {props.days[i]}
