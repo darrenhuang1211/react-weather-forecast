@@ -9,7 +9,7 @@ ChartJS.register(CategoryScale, LineController, LineElement, PointElement, Linea
 
 const ChartContainer = styled.div`
    display: inline-block;
-   width: 50em;
+   width: 65em;
    float: left;
 `;
 
@@ -30,7 +30,16 @@ function WeatherChart(props) {
    }, []);
 
    for (let i=0; i<props.days.length; i++) {
-      buttons.push(<WeatherDayButton key={i} dayNum={i} handler={dayButtonHandler}>{props.days[i]}</WeatherDayButton>)
+      buttons.push(
+         <WeatherDayButton 
+            key={i} 
+            weatherData={props.weatherData[i]}
+            dayNum={i} 
+            handler={dayButtonHandler}
+         >
+            {props.days[i]}
+         </WeatherDayButton>
+      )
    }
 
    const currentDayOverview = {

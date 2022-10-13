@@ -4,7 +4,7 @@ const OverviewDisplay = styled.div`
    display: inline-block;
    float: left;
    width: 20em;
-   text-align: left;
+   text-align: center;
    margin-left: 0.5em;
 `;
 
