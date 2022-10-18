@@ -43,7 +43,17 @@ function WeatherChart(props) {
       )
    }
 
+   const dateFormatOptions = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      weekday: "short",
+      hour: "numeric",
+      minute: "2-digit"
+   }
+
    const currentDayOverview = {
+      time: new Date(dayWeatherData[0].dt * 1000).toLocaleString("en-US", dateFormatOptions),
       temp: dayWeatherData[0].main.temp,
       feelsLike: dayWeatherData[0].main.feels_like,
       humidity: dayWeatherData[0].main.humidity,

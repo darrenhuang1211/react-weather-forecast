@@ -7,16 +7,17 @@ const StyledWeatherButton = styled.div`
    width: 10em;
    text-align: center;
    border-radius: 5px;
-   background-color: ${props => props.selected ? "#60c0f0" : "white"};
+   background-color: ${props => props.selected ? "#5dade2" : "white"};
 
    :hover {
       border-style: solid;
-      border-color: 	#60c0f0;
+      border-color: #5dade2;
       cursor: pointer;
    }
 
    p, b {
       font-size: 1em;
+      color: ${props => props.selected ? "white" : "black"};
    }
 `;
 
