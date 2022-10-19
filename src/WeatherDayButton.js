@@ -16,8 +16,11 @@ const StyledWeatherButton = styled.div`
    }
 
    p, b {
-      font-size: 1em;
       color: ${props => props.selected ? "white" : "black"};
+   }
+
+   .time {
+      
    }
 `;
 
@@ -30,9 +33,10 @@ function WeatherDayButton(props) {
 
    return (
       <StyledWeatherButton {...props} onClick={onClickHandler}>
-         <p>{props.children}</p>
+         <b className={"time"}>{props.children}</b>
          <img src={weatherIconURL} alt={overviewData.weather}></img>
-         <p>{`Humidity: ${overviewData.main.humidity}%`}</p>
+         <p>Humidity</p>
+         <p>{`${overviewData.main.humidity}%`}</p>
       </StyledWeatherButton>
    );
 }

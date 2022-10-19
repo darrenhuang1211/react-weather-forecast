@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import WeatherDetailPanel from "./WeatherDetailPanel";
 
 const OverviewDisplay = styled.div`
    display: inline-block;
@@ -26,9 +27,12 @@ function WeatherOverview(props) {
             <h1>{`${overviewData.temp.toFixed(1)} °C`}</h1>
          </div>
          <h2>{`${overviewData.weather}`}</h2>
-         <p>{`Feels like: ${overviewData.feelsLike.toFixed(1)} °C`}</p>
-         <p>{`Humidity: ${overviewData.humidity}%`}</p>
-         <p>{`Wind speed: ${overviewData.windSpeed.toFixed(1)} m/s`}</p>
+         <div style={{display: "flex", flexWrap: "wrap"}}>
+            <WeatherDetailPanel title={"Feels like"} value={`${overviewData.feelsLike.toFixed(1)} °C`} />
+            <WeatherDetailPanel title={"Humidity"} value={`${overviewData.humidity} %`} />
+            <WeatherDetailPanel title={"Wind speed"} value={`${overviewData.windSpeed.toFixed(1)} m/s`} />
+            <WeatherDetailPanel title={"Visibility"} value={`${overviewData.visibility / 1000} km`} />
+         </div>
       </OverviewDisplay>
    );
 }
