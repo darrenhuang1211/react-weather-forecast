@@ -7,10 +7,16 @@ import { Chart as ChartJS, CategoryScale, LineController, LineElement, PointElem
 
 ChartJS.register(CategoryScale, LineController, LineElement, PointElement, LinearScale, Title);
 
-const ChartContainer = styled.div`
-   display: inline-block;
-   width: 65em;
-   float: left;
+const GridContainer = styled.div`
+   display: grid;
+   grid-template-columns: 1fr 3fr;
+   grid-gap: 1em;
+`;
+
+const WeatherButtonFlexbox = styled.div`
+   display: flex;
+   justify-content: space-evenly;
+   margin: 1em;
 `;
 
 function WeatherChart(props) {
@@ -76,13 +82,15 @@ function WeatherChart(props) {
    };
 
    return (
-      <React.Fragment>
+      <GridContainer>
          <WeatherOverview data={currentDayOverview}/>
-         <ChartContainer>
+         <div>
             <Line options={options} data={data}></Line>
-            {buttons}
-         </ChartContainer>
-      </React.Fragment>
+            <WeatherButtonFlexbox>
+               {buttons}
+            </WeatherButtonFlexbox>
+         </div>
+      </GridContainer>
    );
 }
 

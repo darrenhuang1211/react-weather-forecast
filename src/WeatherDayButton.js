@@ -2,10 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledWeatherButton = styled.div`
-   display: inline-block;
-   float: left;
    width: 10em;
    text-align: center;
+   padding: 0.5em;
    border-radius: 5px;
    background-color: ${props => props.selected ? "#5dade2" : "white"};
 
@@ -35,8 +34,8 @@ function WeatherDayButton(props) {
       <StyledWeatherButton {...props} onClick={onClickHandler}>
          <b className={"time"}>{props.children}</b>
          <img src={weatherIconURL} alt={overviewData.weather}></img>
-         <p>Humidity</p>
-         <p>{`${overviewData.main.humidity}%`}</p>
+         <p>Temperature</p>
+         <p>{`${overviewData.main.temp.toFixed(1)}°C`}</p>
       </StyledWeatherButton>
    );
 }
