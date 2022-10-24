@@ -58,7 +58,7 @@ function WeatherChart(props) {
       feelsLike: dayWeatherData[0].main.feels_like,
       humidity: dayWeatherData[0].main.humidity,
       windSpeed: dayWeatherData[0].wind.speed,
-      visibility: dayWeatherData[0].main.visibility,
+      visibility: dayWeatherData[0].visibility,
       weather: dayWeatherData[0].weather[0].main,
       icon: dayWeatherData[0].weather[0].icon
    };
