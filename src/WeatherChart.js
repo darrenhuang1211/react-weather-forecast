@@ -1,10 +1,23 @@
 import React, {useState, useCallback} from "react";
+import styled from "styled-components";
 import { Line } from 'react-chartjs-2';
 import WeatherDayButton from './WeatherDayButton';
 import WeatherOverview from "./WeatherOverview";
 import { Chart as ChartJS, CategoryScale, LineController, LineElement, PointElement, LinearScale, Title } from 'chart.js';
 
 ChartJS.register(CategoryScale, LineController, LineElement, PointElement, LinearScale, Title);
+
+const GridContainer = styled.div`
+   display: grid;
+   grid-template-columns: 1fr 3fr;
+   grid-gap: 1em;
+`;
+
+const WeatherButtonFlexbox = styled.div`
+   display: flex;
+   justify-content: space-evenly;
+   margin: 1em;
+`;
 
 function WeatherChart(props) {
    const [currentDay, setCurrentDay] = useState(0);
@@ -23,15 +36,37 @@ function WeatherChart(props) {
    }, []);
 
    for (let i=0; i<props.days.length; i++) {
-      buttons.push(<WeatherDayButton key={i} dayNum={i} handler={dayButtonHandler}>{props.days[i]}</WeatherDayButton>)
+      buttons.push(
+         <WeatherDayButton 
+            key={i} 
+            weatherData={props.weatherData[i]}
+            dayNum={i}
+            selected={i === currentDay} 
+            handler={dayButtonHandler}
+         >
+            {props.days[i]}
+         </WeatherDayButton>
+      )
+   }
+
+   const dateFormatOptions = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      weekday: "short",
+      hour: "numeric",
+      minute: "2-digit"
    }
 
    const currentDayOverview = {
+      time: new Date(dayWeatherData[0].dt * 1000).toLocaleString("en-US", dateFormatOptions),
       temp: dayWeatherData[0].main.temp,
       feelsLike: dayWeatherData[0].main.feels_like,
       humidity: dayWeatherData[0].main.humidity,
       windSpeed: dayWeatherData[0].wind.speed,
-      weather: dayWeatherData[0].weather[0].main
+      visibility: dayWeatherData[0].visibility,
+      weather: dayWeatherData[0].weather[0].main,
+      icon: dayWeatherData[0].weather[0].icon
    };
    
    const data = {
@@ -42,15 +77,20 @@ function WeatherChart(props) {
    };
 
    const options = {
-      tension: 0.25
+      tension: 0.25,
+      aspectRatio: 3
    };
 
    return (
-      <React.Fragment>
+      <GridContainer>
          <WeatherOverview data={currentDayOverview}/>
-         <Line options={options} data={data}></Line>
-         {buttons}
-      </React.Fragment>
+         <div>
+            <Line options={options} data={data}></Line>
+            <WeatherButtonFlexbox>
+               {buttons}
+            </WeatherButtonFlexbox>
+         </div>
+      </GridContainer>
    );
 }
 
