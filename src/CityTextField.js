@@ -4,16 +4,16 @@ import styled from 'styled-components';
 const StyledForm = styled.form`
    display: block;
    width: 20em;
-   margin-bottom: 0.5em;
-   margin-left: 0.5em;
+   margin: 1em auto;
 
    label {
+      text-align: center;
       font-weight: bold;
       margin-right: 1em;
    }
 
    input {
-      width: 8em;
+      width: 6em;
       border-radius: 5px;
       border: 1px solid #ccc;
       font: inherit;
@@ -47,7 +47,7 @@ function CityTextField(props) {
    return (
       <StyledForm onSubmit={submissionHandler}>
          <label>Your city: </label>
-         <input ref={cityInputRef} type="text" defaultValue={props.location}></input>
+         <input ref={cityInputRef} type="text"></input>
          <button type="submit">Update</button>
       </StyledForm>
    );

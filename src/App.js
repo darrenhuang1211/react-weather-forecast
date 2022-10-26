@@ -1,17 +1,25 @@
+import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import APIKEY from './config';
 import WeatherChart from './WeatherDisplay';
 import CityTextField from './CityTextField';
 
+const StyledTitle = styled.div`
+  text-align: left;
+  font-size: 32px;
+  margin: 0.5em;
+`;
+
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [locationName, setLocationName] = useState({});
   const [weatherData, setWeatherData] = useState({});
+  const [isAutoDetected, setIsAutoDetected] = useState(true);
 
   async function getLocationName(lat, lon) {
     try {
-      const response = await fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${APIKEY}`);
+      const response = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${APIKEY}`);
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
@@ -27,7 +35,7 @@ function App() {
 
   async function getCoordsFromLocation(location) {
     try {
-      const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${APIKEY}`);
+      const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${APIKEY}`);
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
@@ -47,7 +55,7 @@ function App() {
   async function getWeather(lat, lon) {
     try {
       console.log(`Getting weather data for lat: ${lat} lon: ${lon}`);
-      const response = await fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${APIKEY}`);
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${APIKEY}`);
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
@@ -77,6 +85,7 @@ function App() {
     setIsLoaded(false);
     const [newLat, newLon] = await getCoordsFromLocation(newCity);
     getWeather(newLat, newLon);
+    setIsAutoDetected(false);
   }
 
   let content;
@@ -85,6 +94,7 @@ function App() {
     content = (
       <React.Fragment>
         <CityTextField location={locationName} submitHandler={updateCityHandler}/>
+        <p>{"Location: " + locationName + (isAutoDetected ? " (Auto Detected)" : "")}</p>
         <WeatherChart chartData={weatherData}/>
       </React.Fragment>
     );
@@ -95,7 +105,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Weather Forecast App</h1>
+      <StyledTitle>React Weather Forecast App</StyledTitle>
       {content}
     </div>
   );
