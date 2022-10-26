@@ -9,13 +9,18 @@ ChartJS.register(CategoryScale, LineController, LineElement, PointElement, Linea
 
 const GridContainer = styled.div`
    display: grid;
-   grid-template-columns: 1fr 3fr;
+   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
    grid-gap: 1em;
+
+   .chartArea {
+      grid-column: span 3;
+   }
 `;
 
 const WeatherButtonFlexbox = styled.div`
    display: flex;
    justify-content: space-evenly;
+   flex-wrap: wrap;
    margin: 1em;
 `;
 
@@ -78,13 +83,14 @@ function WeatherChart(props) {
 
    const options = {
       tension: 0.25,
-      aspectRatio: 3
+      responsive: true,
+      aspectRatio: 3.5
    };
 
    return (
       <GridContainer>
-         <WeatherOverview data={currentDayOverview}/>
-         <div>
+         <WeatherOverview className={"overview"} data={currentDayOverview}/>
+         <div className="chartArea">
             <Line options={options} data={data}></Line>
             <WeatherButtonFlexbox>
                {buttons}

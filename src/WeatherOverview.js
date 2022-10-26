@@ -12,7 +12,7 @@ const OverviewDisplay = styled.div`
 
 const WeatherDetailGrid = styled.div`
    display: grid;
-   grid-template-columns: 1fr 1fr;
+   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
    grid-gap: 1em;
 `;
 
