@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { Line } from 'react-chartjs-2';
 import WeatherDayButton from './WeatherDayButton';
 import WeatherOverview from "./WeatherOverview";
-import { Chart as ChartJS, CategoryScale, LineController, LineElement, PointElement, LinearScale, Title } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LineController, LineElement, PointElement, LinearScale, Tooltip, Title } from 'chart.js';
 
-ChartJS.register(CategoryScale, LineController, LineElement, PointElement, LinearScale, Title);
+ChartJS.register(CategoryScale, LineController, LineElement, PointElement, LinearScale, Tooltip, Title);
 
 const GridContainer = styled.div`
    display: grid;
@@ -77,7 +77,9 @@ function WeatherChart(props) {
    const data = {
       labels: formattedDates,
       datasets: [{
-         data: temperatures
+         data: temperatures,
+         borderColor: "#85c1e9",
+         backgroundColor: "#85c1e9"
       }]
    };
 
