@@ -9,7 +9,7 @@ ChartJS.register(CategoryScale, LineController, LineElement, PointElement, Linea
 
 const GridContainer = styled.div`
    display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
    grid-gap: 1em;
 
    .chartArea {

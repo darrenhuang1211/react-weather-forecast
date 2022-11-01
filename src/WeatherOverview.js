@@ -13,7 +13,8 @@ const OverviewDisplay = styled.div`
 const WeatherDetailGrid = styled.div`
    display: grid;
    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-   grid-gap: 1em;
+   justify-content: center;
+   grid-gap: 0.5em;
 `;
 
 function WeatherOverview(props) {
