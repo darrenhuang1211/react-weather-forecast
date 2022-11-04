@@ -16,6 +16,9 @@ function App() {
   const [locationName, setLocationName] = useState({});
   const [weatherData, setWeatherData] = useState({});
   const [isAutoDetected, setIsAutoDetected] = useState(true);
+  const [hasError, setHasError] = useState(false);
+
+  let errorMessage;
 
   async function getLocationName(lat, lon) {
     try {
@@ -30,6 +33,8 @@ function App() {
     }
     catch(error) {
       console.log(`Encountered error: ${error.message}`);
+      errorMessage = error.message;
+      setHasError(true);
     }
   }
 
@@ -49,6 +54,8 @@ function App() {
     }
     catch(error) {
       console.log(`Encountered error: ${error.message}`);
+      errorMessage = error.message;
+      setHasError(true);
     }
   }
 
@@ -67,6 +74,8 @@ function App() {
     }
     catch(error) {
       console.log(`Encountered error: ${error.message}`);
+      errorMessage = error.message;
+      setHasError(true);
     }
   }
 
@@ -101,6 +110,10 @@ function App() {
   }
   else {
     content = <p>Loading...</p>;
+  }
+
+  if (hasError) {
+    content = <p>{`Encountered error: ${errorMessage}.`}</p>
   }
 
   return (

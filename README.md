@@ -1,70 +1,28 @@
-# Getting Started with Create React App
+# React Weather Forecast App
+*Updated Oct 2022*
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Example screenshot](public/example.png)
 
-## Available Scripts
+This is a single page application which displays the 5-day weather forecast of a specific location (detected by system or entered by user). For the day selected, it shows detailed weather data on the left and generates a line chart for the temperature. Hosted here: https://weather-app-c84d64.netlify.app/
 
-In the project directory, you can run:
+## Uses
 
-### `npm start`
+- Built with React and styled-components 
+- [Chart.js](https://www.chartjs.org/) library for line chart
+- [OpenWeather API](https://openweathermap.org/api) for the weather forecast data and for converting location names to coordinates
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) for detecting user location
+- [Netlify](https://www.netlify.com/) for deployment.
+- [DevProjects](https://www.codementor.io/projects/web/weather-forecast-website-atx32lz7zb) for the project idea
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## How it works
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+On initial startup, the app detects your location and displays its weather forecast data. Note that you may need to give the browser permissions first. You can also enter a location of your choice in the input field and view its weather forecast. 
 
-### `npm test`
+The free plan of OpenWeather's API provides weather data for the next 5 days, with 3-hour step. It defaults to showing data for the current day, but you can click the panels below the chart to select other days. Below are some specifics of how this app behaves:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- The forecast starts at the next closest 3-hour step from the current time, and stops at exactly 5 days later. It adapts to your time zone. 
+- The line chart always shows 24 hours-worth of data. It starts from 2am of each day and ends at 11pm. The exceptions are the first and last days:
+   - For the first day, it starts at the next closest 3-hour step from the current time, and stops 24 hours later. 
+   - For the last day, it starts at 24 hours before the final 3-hour step. 
+   - Because of this, there might be some repeated weather data in the second and second-to-last days.
+- Currently, the weather details on the left always shows data from the first 3-hour step of the selected day.
