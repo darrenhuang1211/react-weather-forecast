@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const StyledPanel = styled.div`
-   background-color: #ddd;
    text-align: center;
 
    .title {

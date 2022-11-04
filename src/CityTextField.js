@@ -3,29 +3,31 @@ import styled from 'styled-components';
 
 const StyledForm = styled.form`
    display: block;
-   width: 20em;
-   margin-bottom: 0.5em;
-   margin-left: 0.5em;
+   width: 24em;
+   margin: 1em auto;
 
    label {
+      text-align: center;
       font-weight: bold;
+      font-size: 18px;
       margin-right: 1em;
    }
 
    input {
-      width: 8em;
+      width: 6em;
       border-radius: 5px;
       border: 1px solid #ccc;
-      font: inherit;
+      font-size: 20px;
       padding-left: 0.5em;
       margin-right: 0.5em;
    }
 
    button {
-      font: inherit;
       border: 1px solid black;
+      font-size: 14px;
+      padding: 5px 10px;
       color: black;
-      background: white;
+      background-color: white;
       border-radius: 5px;
       cursor: pointer;
    }
@@ -46,8 +48,8 @@ function CityTextField(props) {
 
    return (
       <StyledForm onSubmit={submissionHandler}>
-         <label>Your city: </label>
-         <input ref={cityInputRef} type="text" defaultValue={props.location}></input>
+         <label>Enter city name: </label>
+         <input ref={cityInputRef} type="text"></input>
          <button type="submit">Update</button>
       </StyledForm>
    );

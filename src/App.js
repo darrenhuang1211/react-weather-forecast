@@ -1,13 +1,21 @@
+import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import APIKEY from './config';
 import WeatherChart from './WeatherDisplay';
 import CityTextField from './CityTextField';
 
+const StyledTitle = styled.div`
+  text-align: left;
+  font-size: 32px;
+  margin: 0.5em;
+`;
+
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [locationName, setLocationName] = useState({});
   const [weatherData, setWeatherData] = useState({});
+  const [isAutoDetected, setIsAutoDetected] = useState(true);
   const [hasError, setHasError] = useState(false);
 
   let errorMessage;
@@ -86,6 +94,7 @@ function App() {
     setIsLoaded(false);
     const [newLat, newLon] = await getCoordsFromLocation(newCity);
     getWeather(newLat, newLon);
+    setIsAutoDetected(false);
   }
 
   let content;
@@ -94,6 +103,7 @@ function App() {
     content = (
       <React.Fragment>
         <CityTextField location={locationName} submitHandler={updateCityHandler}/>
+        <p>{"Location: " + locationName + (isAutoDetected ? " (Auto Detected)" : "")}</p>
         <WeatherChart chartData={weatherData}/>
       </React.Fragment>
     );
@@ -108,7 +118,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Weather Forecast App</h1>
+      <StyledTitle>React Weather Forecast App</StyledTitle>
       {content}
     </div>
   );

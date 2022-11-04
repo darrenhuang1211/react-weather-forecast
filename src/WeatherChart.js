@@ -3,19 +3,24 @@ import styled from "styled-components";
 import { Line } from 'react-chartjs-2';
 import WeatherDayButton from './WeatherDayButton';
 import WeatherOverview from "./WeatherOverview";
-import { Chart as ChartJS, CategoryScale, LineController, LineElement, PointElement, LinearScale, Title } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LineController, LineElement, PointElement, LinearScale, Tooltip, Title } from 'chart.js';
 
-ChartJS.register(CategoryScale, LineController, LineElement, PointElement, LinearScale, Title);
+ChartJS.register(CategoryScale, LineController, LineElement, PointElement, LinearScale, Tooltip, Title);
 
 const GridContainer = styled.div`
    display: grid;
-   grid-template-columns: 1fr 3fr;
+   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
    grid-gap: 1em;
+
+   .chartArea {
+      grid-column: span 3;
+   }
 `;
 
 const WeatherButtonFlexbox = styled.div`
    display: flex;
    justify-content: space-evenly;
+   flex-wrap: wrap;
    margin: 1em;
 `;
 
@@ -72,19 +77,22 @@ function WeatherChart(props) {
    const data = {
       labels: formattedDates,
       datasets: [{
-         data: temperatures
+         data: temperatures,
+         borderColor: "#85c1e9",
+         backgroundColor: "#85c1e9"
       }]
    };
 
    const options = {
       tension: 0.25,
-      aspectRatio: 3
+      responsive: true,
+      aspectRatio: 3.5
    };
 
    return (
       <GridContainer>
-         <WeatherOverview data={currentDayOverview}/>
-         <div>
+         <WeatherOverview className={"overview"} data={currentDayOverview}/>
+         <div className="chartArea">
             <Line options={options} data={data}></Line>
             <WeatherButtonFlexbox>
                {buttons}
