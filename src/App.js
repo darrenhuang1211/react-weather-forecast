@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import APIKEY from './config';
-import WeatherChart from './WeatherDisplay';
-import CityTextField from './CityTextField';
+import WeatherDisplay from './components/WeatherDisplay';
+import CityTextField from './components/CityTextField';
 
 const StyledTitle = styled.div`
   text-align: left;
@@ -102,9 +102,9 @@ function App() {
   if (isLoaded) {
     content = (
       <React.Fragment>
-        <CityTextField location={locationName} submitHandler={updateCityHandler}/>
+        <CityTextField submitHandler={updateCityHandler}/>
         <p>{"Location: " + locationName + (isAutoDetected ? " (Auto Detected)" : "")}</p>
-        <WeatherChart chartData={weatherData}/>
+        <WeatherDisplay chartData={weatherData}/>
       </React.Fragment>
     );
   }
