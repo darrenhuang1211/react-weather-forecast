@@ -22,7 +22,7 @@ function App() {
 
   async function getLocationName(lat, lon) {
     try {
-      const response = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${APIKEY}`);
+      const response = await fetch(`${process.env.REACT_APP_OPENWEATHER_URL_GEO}/reverse?lat=${lat}&lon=${lon}&appid=${APIKEY}`);
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
@@ -40,7 +40,7 @@ function App() {
 
   async function getCoordsFromLocation(location) {
     try {
-      const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${APIKEY}`);
+      const response = await fetch(`${process.env.REACT_APP_OPENWEATHER_URL_GEO}/direct?q=${location}&limit=1&appid=${APIKEY}`);
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
@@ -62,7 +62,7 @@ function App() {
   async function getWeather(lat, lon) {
     try {
       console.log(`Getting weather data for lat: ${lat} lon: ${lon}`);
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${APIKEY}`);
+      const response = await fetch(`${process.env.REACT_APP_OPENWEATHER_URL_DATA}/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${APIKEY}`);
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
