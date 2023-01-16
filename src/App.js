@@ -19,6 +19,7 @@ function App() {
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  //use OpenWeather API to convert coordinates in a location name (i.e. city name)
   async function getLocationName(lat, lon) {
     try {
       const response = await fetch(`${process.env.REACT_APP_OPENWEATHER_URL_GEO}/reverse?lat=${lat}&lon=${lon}&appid=${APIKEY}`);
@@ -37,6 +38,7 @@ function App() {
     }
   }
 
+  //use OpenWeather API to convert location name into coordinates
   async function getCoordsFromLocation(location) {
     try {
       const response = await fetch(`${process.env.REACT_APP_OPENWEATHER_URL_GEO}/direct?q=${location}&limit=1&appid=${APIKEY}`);
@@ -49,7 +51,7 @@ function App() {
       console.log(`New location: ${data[0].name}`);
       console.log(`New coordinates: Lat: ${data[0].lat} Lon: ${data[0].lon}`);
 
-      return [data[0].lat, data[0].lon];
+      return {lat: data[0].lat, lon: data[0].lon};
     }
     catch(error) {
       console.log(`Encountered error: ${error.message}`);
@@ -58,6 +60,7 @@ function App() {
     }
   }
 
+  //Use OpenWeather API to get 5-day weather data from coordinates
   async function getWeather(lat, lon) {
     try {
       console.log(`Getting weather data for lat: ${lat} lon: ${lon}`);
@@ -77,18 +80,19 @@ function App() {
     }
   }
 
+  //Called when user manually enters a new city or location
   async function updateCityHandler(newCity) {
     setIsLoaded(false);
-    const [newLat, newLon] = await getCoordsFromLocation(newCity);
+    const {lat: newLat, lon: newLon} = await getCoordsFromLocation(newCity);
     getWeather(newLat, newLon);
     setIsAutoDetected(false);
   }
 
-  function getPositionCallback(pos) {
+  async function getPositionCallback(pos) {
     const coordinates = pos.coords;
     console.log(`Coordinates: Lat: ${coordinates.latitude} Lon: ${coordinates.longitude}`);
-    getLocationName(coordinates.latitude, coordinates.longitude);
-    getWeather(coordinates.latitude, coordinates.longitude);
+    await getLocationName(coordinates.latitude, coordinates.longitude);
+    await getWeather(coordinates.latitude, coordinates.longitude);
   }
 
   useEffect(() => {
