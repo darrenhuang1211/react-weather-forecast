@@ -17,14 +17,14 @@ function App() {
   const [weatherData, setWeatherData] = useState({});
   const [isAutoDetected, setIsAutoDetected] = useState(true);
   const [hasError, setHasError] = useState(false);
-
-  let errorMessage;
+  const [errorMessage, setErrorMessage] = useState("");
 
   async function getLocationName(lat, lon) {
     try {
       const response = await fetch(`${process.env.REACT_APP_OPENWEATHER_URL_GEO}/reverse?lat=${lat}&lon=${lon}&appid=${APIKEY}`);
+      
       if (!response.ok) {
-        throw new Error('Something went wrong!');
+        throw new Error("Failed to get location name");
       }
 
       const data = await response.json();
@@ -32,8 +32,7 @@ function App() {
       setLocationName(data[0].name);
     }
     catch(error) {
-      console.log(`Encountered error: ${error.message}`);
-      errorMessage = error.message;
+      setErrorMessage(error);
       setHasError(true);
     }
   }
@@ -42,7 +41,7 @@ function App() {
     try {
       const response = await fetch(`${process.env.REACT_APP_OPENWEATHER_URL_GEO}/direct?q=${location}&limit=1&appid=${APIKEY}`);
       if (!response.ok) {
-        throw new Error('Something went wrong!');
+        throw new Error("Failed to convert location to coordinates");
       }
 
       const data = await response.json();
@@ -54,7 +53,7 @@ function App() {
     }
     catch(error) {
       console.log(`Encountered error: ${error.message}`);
-      errorMessage = error.message;
+      setErrorMessage(error);
       setHasError(true);
     }
   }
@@ -64,7 +63,7 @@ function App() {
       console.log(`Getting weather data for lat: ${lat} lon: ${lon}`);
       const response = await fetch(`${process.env.REACT_APP_OPENWEATHER_URL_DATA}/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${APIKEY}`);
       if (!response.ok) {
-        throw new Error('Something went wrong!');
+        throw new Error("Failed to get weather data");
       }
 
       const data = await response.json();
@@ -73,22 +72,10 @@ function App() {
       setIsLoaded(true);
     }
     catch(error) {
-      console.log(`Encountered error: ${error.message}`);
-      errorMessage = error.message;
+      setErrorMessage(error);
       setHasError(true);
     }
   }
-
-  function getPositionSuccess(pos) {
-    const coordinates = pos.coords;
-    console.log(`Coordinates: Lat: ${coordinates.latitude} Lon: ${coordinates.longitude}`);
-    getLocationName(coordinates.latitude, coordinates.longitude);
-    getWeather(coordinates.latitude, coordinates.longitude);
-  }
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(getPositionSuccess);
-  }, []);
 
   async function updateCityHandler(newCity) {
     setIsLoaded(false);
@@ -96,6 +83,17 @@ function App() {
     getWeather(newLat, newLon);
     setIsAutoDetected(false);
   }
+
+  function getPositionCallback(pos) {
+    const coordinates = pos.coords;
+    console.log(`Coordinates: Lat: ${coordinates.latitude} Lon: ${coordinates.longitude}`);
+    getLocationName(coordinates.latitude, coordinates.longitude);
+    getWeather(coordinates.latitude, coordinates.longitude);
+  }
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(getPositionCallback);
+  }, []);
 
   let content;
 
