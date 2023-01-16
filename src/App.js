@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
-import './App.css';
 import APIKEY from './config';
 import WeatherDisplay from './components/WeatherDisplay';
 import CityTextField from './components/CityTextField';
@@ -10,6 +9,10 @@ const StyledTitle = styled.div`
   font-size: 32px;
   margin: 0.5em;
 `;
+
+const LocationLabel = styled.p`
+  text-align: center;
+`
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -48,8 +51,6 @@ function App() {
 
       const data = await response.json();
       setLocationName(data[0].name);
-      console.log(`New location: ${data[0].name}`);
-      console.log(`New coordinates: Lat: ${data[0].lat} Lon: ${data[0].lon}`);
 
       return {lat: data[0].lat, lon: data[0].lon};
     }
@@ -70,7 +71,6 @@ function App() {
       }
 
       const data = await response.json();
-      console.log("Weather data retrieved");
       setWeatherData(data);
       setIsLoaded(true);
     }
@@ -90,7 +90,7 @@ function App() {
 
   async function getPositionCallback(pos) {
     const coordinates = pos.coords;
-    console.log(`Coordinates: Lat: ${coordinates.latitude} Lon: ${coordinates.longitude}`);
+    
     await getLocationName(coordinates.latitude, coordinates.longitude);
     await getWeather(coordinates.latitude, coordinates.longitude);
   }
@@ -105,7 +105,7 @@ function App() {
     content = (
       <React.Fragment>
         <CityTextField submitHandler={updateCityHandler}/>
-        <p>{"Location: " + locationName + (isAutoDetected ? " (Auto Detected)" : "")}</p>
+        <LocationLabel>{"Location: " + locationName + (isAutoDetected ? " (Auto Detected)" : "")}</LocationLabel>
         <WeatherDisplay chartData={weatherData}/>
       </React.Fragment>
     );
