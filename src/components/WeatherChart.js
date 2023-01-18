@@ -7,6 +7,7 @@ import { Chart as ChartJS, CategoryScale, LineController, LineElement, PointElem
 
 ChartJS.register(CategoryScale, LineController, LineElement, PointElement, LinearScale, Tooltip, Title);
 
+/*
 const GridContainer = styled.div`
    display: grid;
    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -14,6 +15,40 @@ const GridContainer = styled.div`
 
    .chartArea {
       grid-column: span 3;
+   }
+`;
+*/
+
+const GridContainer = styled.div`
+   display: grid;
+   grid-template-columns: 25% 75%;
+   grid-template-rows: auto;
+   grid-gap: 1em;
+
+   .overview {
+      display: flex;
+      grid-row: 1 / 3;
+   }
+   .chart {
+      display: flex;
+   }
+   .buttons {
+      display: flex;
+   }
+
+   @media (max-width: 1000px) {
+      grid-template-columns: 1fr 1fr;
+      .chart {
+         order: 1; 
+         grid-column: 1 / 3;
+      }
+      .overview {
+         order: 2;
+         grid-row: auto;
+      }
+      .buttons {
+         order: 3;
+      }
    }
 `;
 
@@ -91,9 +126,13 @@ function WeatherChart(props) {
 
    return (
       <GridContainer>
-         <WeatherOverview className={"overview"} data={currentDayOverview}/>
-         <div className="chartArea">
+         <div className="overview">
+            <WeatherOverview data={currentDayOverview}/>
+         </div>
+         <div className="chart">
             <Line options={options} data={data}></Line>
+         </div>
+         <div className="buttons">
             <WeatherButtonFlexbox>
                {buttons}
             </WeatherButtonFlexbox>

@@ -6,7 +6,7 @@ import CityTextField from './components/CityTextField';
 
 const StyledTitle = styled.div`
   text-align: left;
-  font-size: 32px;
+  font-size: 2em;
   margin: 0.5em;
 `;
 

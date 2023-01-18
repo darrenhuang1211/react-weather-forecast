@@ -3,28 +3,27 @@ import styled from 'styled-components';
 
 const StyledForm = styled.form`
    display: block;
-   width: 24em;
-   margin: 1em auto;
+   text-align: center;
+   margin: auto;
 
    label {
-      text-align: center;
       font-weight: bold;
-      font-size: 18px;
-      margin-right: 1em;
+      font-size: 1em;
+      margin: 1em;
    }
 
    input {
       width: 6em;
       border-radius: 5px;
       border: 1px solid #ccc;
-      font-size: 20px;
+      font-size: 1.25em;
       padding-left: 0.5em;
       margin-right: 0.5em;
    }
 
    button {
       border: 1px solid black;
-      font-size: 14px;
+      font-size: 1em;
       padding: 5px 10px;
       color: black;
       background-color: white;

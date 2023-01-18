@@ -2,6 +2,7 @@ import styled from "styled-components";
 import WeatherDetailPanel from "./WeatherDetailPanel";
 
 const OverviewDisplay = styled.div`
+   width: 100%;
    text-align: center;
    margin-left: 0.5em;
 
@@ -12,7 +13,7 @@ const OverviewDisplay = styled.div`
 
 const WeatherDetailGrid = styled.div`
    display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
    justify-content: center;
    grid-gap: 0.5em;
 `;
