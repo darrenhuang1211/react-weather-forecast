@@ -65,7 +65,7 @@ function WeatherChart(props) {
    const buttons = [];
 
    const formattedDates = dayWeatherData.map((data) => {
-      return new Date(data.dt * 1000).toLocaleString("en-US");
+      return new Date(data.dt * 1000).toLocaleString("en-US", {dateStyle: "short", timeStyle: "short"});
    });
    const temperatures = dayWeatherData.map((data) => {
       return data.main.temp;
